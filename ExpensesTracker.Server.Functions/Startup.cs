@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using ExpensesTracker.Server.Functions.Extensions;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,8 @@ namespace ExpensesTracker.Server.Functions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            throw new NotImplementedException();
+            var config = builder.GetContext().Configuration;
+            builder.Services.AddCosmosDBClient(config.GetSection("CosmosDbConnection").Value.ToString());
         }
     }
 }
